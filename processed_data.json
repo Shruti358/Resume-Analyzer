@@ -1,0 +1,57 @@
+[
+    {
+        "resume_skills": [
+            "python",
+            "machine learning",
+            "pandas",
+            "numpy",
+            "data analysis"
+        ],
+        "job_skills": [
+            "python",
+            "machine learning",
+            "deep learning",
+            "data analysis"
+        ]
+    },
+    {
+        "resume_skills": [
+            "java",
+            "sql"
+        ],
+        "job_skills": [
+            "java",
+            "sql",
+            "aws",
+            "cloud"
+        ]
+    },
+    {
+        "resume_skills": [
+            "java",
+            "html",
+            "css",
+            "javascript",
+            "react"
+        ],
+        "job_skills": [
+            "java",
+            "html",
+            "css",
+            "javascript",
+            "react",
+            "node"
+        ]
+    },
+    {
+        "resume_skills": [
+            "deep learning",
+            "tensorflow"
+        ],
+        "job_skills": [
+            "python",
+            "machine learning",
+            "tensorflow"
+        ]
+    }
+]
