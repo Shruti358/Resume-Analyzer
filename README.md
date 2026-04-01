@@ -1,3 +1,4 @@
+HEAD
 # 🎯 AI Resume Analyzer
 
 A sophisticated resume analysis tool that compares your resume against job descriptions and provides detailed skill matching analysis with personalized learning recommendations.
@@ -197,3 +198,8 @@ This project is open source and available under the MIT License.
 ---
 
 **Happy Job Hunting! 🚀**
+
+# Resume Analyzer
+
+A Python ML project that compares resume skills with job skills.
+ d2e068edb36de916cc847a7d5cadefe114f0d7ff
