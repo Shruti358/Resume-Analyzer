@@ -1,0 +1,360 @@
+{
+  "app_settings": {
+    "name": "AI Resume Analyzer",
+    "version": "2.0",
+    "description": "Modern professional Resume Analyzer with Glassmorphism UI",
+    "author": "Resume Analyzer Team"
+  },
+  
+  "theme": {
+    "primary_gradient": {
+      "start": "#667eea",
+      "end": "#764ba2",
+      "direction": "135deg"
+    },
+    "background_gradient": {
+      "colors": ["#0f0c29", "#302b63", "#24243e"],
+      "direction": "135deg"
+    },
+    "colors": {
+      "success": "#2ed573",
+      "warning": "#ff4757",
+      "info": "#21b6f6",
+      "text_primary": "#ffffff",
+      "text_secondary": "rgba(255, 255, 255, 0.7)",
+      "text_disabled": "rgba(255, 255, 255, 0.5)"
+    },
+    "components": {
+      "glass_opacity": 0.08,
+      "blur_amount": "10px",
+      "border_color": "rgba(255, 255, 255, 0.15)",
+      "card_padding": "2rem",
+      "border_radius": "20px"
+    }
+  },
+  
+  "typography": {
+    "font_family": "Inter, Poppins, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    "sizes": {
+      "h1": "3rem",
+      "h2": "2rem",
+      "h3": "1.3rem",
+      "body": "1rem",
+      "small": "0.9rem",
+      "tiny": "0.8rem"
+    },
+    "weights": {
+      "regular": 400,
+      "medium": 500,
+      "semi_bold": 600,
+      "bold": 700,
+      "extra_bold": 800
+    }
+  },
+  
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2rem",
+    "xxl": "3rem"
+  },
+  
+  "buttons": {
+    "padding": "0.75rem 2rem",
+    "border_radius": "50px",
+    "text_transform": "uppercase",
+    "letter_spacing": "0.05em",
+    "font_weight": 700,
+    "shadow": "0 8px 24px rgba(102, 126, 234, 0.4)",
+    "shadow_hover": "0 12px 32px rgba(102, 126, 234, 0.6)"
+  },
+  
+  "pages": {
+    "upload": {
+      "title": "AI Resume Analyzer",
+      "subtitle": "Upload your resume and get smart insights",
+      "supported_formats": ["pdf", "docx"],
+      "max_file_size_mb": 50,
+      "features": [
+        {
+          "icon": "🛠️",
+          "title": "Technical Skills",
+          "description": "Identifies programming languages, frameworks, and tools"
+        },
+        {
+          "icon": "🎯",
+          "title": "Experience Match",
+          "description": "Compares your background with job requirements"
+        },
+        {
+          "icon": "📈",
+          "title": "Growth Areas",
+          "description": "Suggests skills to improve your profile"
+        },
+        {
+          "icon": "💡",
+          "title": "Personalized Tips",
+          "description": "Get actionable recommendations"
+        }
+      ]
+    },
+    
+    "dashboard": {
+      "sections": [
+        {
+          "name": "Extracted Skills",
+          "icon": "🛠️",
+          "color": "#667eea",
+          "description": "Skills found in your resume"
+        },
+        {
+          "name": "Missing Skills",
+          "icon": "❌",
+          "color": "#ff4757",
+          "description": "Important skills not in your resume"
+        },
+        {
+          "name": "Recommended Skills",
+          "icon": "✅",
+          "color": "#2ed573",
+          "description": "Skills to boost your profile"
+        },
+        {
+          "name": "Match Percentage",
+          "icon": "📈",
+          "color": "gradient",
+          "description": "Overall skills match score"
+        },
+        {
+          "name": "Visual Analytics",
+          "icon": "📊",
+          "color": "multi",
+          "description": "Interactive charts and graphs"
+        },
+        {
+          "name": "Learning Resources",
+          "icon": "🎥",
+          "color": "#21b6f6",
+          "description": "Curated YouTube tutorials"
+        },
+        {
+          "name": "Statistics",
+          "icon": "📌",
+          "color": "neutral",
+          "description": "Key metrics and insights"
+        }
+      ]
+    },
+    
+    "youtube_videos": [
+      {
+        "title": "Master TypeScript - Complete Guide",
+        "video_id": "d56mHmwJeFK",
+        "duration": "15 hours",
+        "skill": "TypeScript",
+        "difficulty": "Intermediate"
+      },
+      {
+        "title": "AWS S3 Deep Dive Tutorial",
+        "video_id": "e-IqAyS54j0",
+        "duration": "8 hours",
+        "skill": "AWS",
+        "difficulty": "Advanced"
+      },
+      {
+        "title": "System Design Interview Prep",
+        "video_id": "UzLRB4IIcL4",
+        "duration": "12 hours",
+        "skill": "System Design",
+        "difficulty": "Advanced"
+      }
+    ],
+    
+    "feedback": {
+      "title": "Send Us Your Feedback",
+      "subtitle": "Help us improve the Resume Analyzer",
+      "types": [
+        "Bug Report",
+        "Feature Request",
+        "General Feedback",
+        "Compliment"
+      ],
+      "email_validation": true,
+      "required_fields": ["name", "email", "message"]
+    },
+    
+    "settings": {
+      "account": {
+        "name": true,
+        "email": true
+      },
+      "notifications": {
+        "email_notifications": true,
+        "weekly_digest": false,
+        "job_alerts": true,
+        "product_updates": true
+      },
+      "preferences": {
+        "theme": ["Dark", "Light", "Auto"],
+        "language": ["English", "Spanish", "French", "German"],
+        "default": {
+          "theme": "Dark",
+          "language": "English"
+        }
+      },
+      "privacy": {
+        "data_analytics": false,
+        "marketing_emails": false
+      }
+    }
+  },
+  
+  "skills_database": {
+    "programming_languages": [
+      "Python", "JavaScript", "TypeScript", "Java", "C++", "C#", "PHP", 
+      "Swift", "Kotlin", "Go", "Rust", "Ruby", "SQL", "HTML", "CSS"
+    ],
+    "frameworks": [
+      "React", "Angular", "Vue", "Django", "Flask", "Express", "FastAPI",
+      "Spring", ".NET", "Laravel", "Rails"
+    ],
+    "cloud_services": [
+      "AWS", "Azure", "Google Cloud", "Docker", "Kubernetes", "Jenkins"
+    ],
+    "data_science": [
+      "Machine Learning", "Deep Learning", "TensorFlow", "PyTorch", "Keras",
+      "Pandas", "NumPy", "Scikit-learn", "Spark"
+    ],
+    "soft_skills": [
+      "Communication", "Leadership", "Problem Solving", "Teamwork",
+      "Time Management", "Adaptability", "Creativity"
+    ]
+  },
+  
+  "storage": {
+    "feedback_file": "feedback_log.json",
+    "resume_upload_dir": "Uploaded_Resumes",
+    "data_format": "json"
+  },
+  
+  "styling": {
+    "shadows": {
+      "card": "0 8px 32px rgba(0, 0, 0, 0.3)",
+      "card_hover": "0 12px 40px rgba(0, 0, 0, 0.4)",
+      "button": "0 8px 24px rgba(102, 126, 234, 0.4)",
+      "button_hover": "0 12px 32px rgba(102, 126, 234, 0.6)"
+    },
+    "blur_effects": {
+      "glass_modal": "blur(10px)",
+      "light": "blur(5px)",
+      "medium": "blur(10px)",
+      "heavy": "blur(15px)"
+    }
+  },
+  
+  "animations": {
+    "duration_ms": {
+      "quick": 200,
+      "normal": 300,
+      "slow": 500
+    },
+    "easing": "ease-in-out",
+    "transitions": [
+      "all 0.3s ease",
+      "box-shadow 0.3s ease",
+      "transform 0.3s ease",
+      "background 0.3s ease"
+    ]
+  },
+  
+  "responsive": {
+    "breakpoints": {
+      "mobile": "< 768px",
+      "tablet": "768px - 1024px",
+      "desktop": "> 1024px"
+    },
+    "adjustments": {
+      "mobile": {
+        "h1_size": "2rem",
+        "padding": "1.5rem",
+        "grid_columns": 1
+      },
+      "desktop": {
+        "h1_size": "3rem",
+        "padding": "2rem",
+        "grid_columns": 3
+      }
+    }
+  },
+  
+  "accessibility": {
+    "min_contrast_ratio": 4.5,
+    "wcag_level": "AA",
+    "focus_visible": true,
+    "alt_text_required": true
+  },
+  
+  "performance": {
+    "lazy_load_images": true,
+    "cache_assets": true,
+    "minify_css": true,
+    "optimize_charts": true
+  },
+  
+  "security": {
+    "https_required": true,
+    "csrf_protection": true,
+    "input_sanitization": true,
+    "rate_limiting": true,
+    "file_upload_validation": true
+  },
+  
+  "seo": {
+    "title": "AI Resume Analyzer - Get Smart Career Insights",
+    "description": "Analyze your resume with AI, identify missing skills, and get personalized learning recommendations.",
+    "keywords": [
+      "resume analyzer", "career development", "skill assessment",
+      "learning resources", "job matching", "professional growth"
+    ]
+  },
+  
+  "sidebar": {
+    "logo_emoji": "📄",
+    "app_name": "Resume AI",
+    "tagline": "Your Smart Career Assistant",
+    "navigation_items": [
+      {
+        "icon": "📤",
+        "label": "Upload Resume",
+        "page": "upload"
+      },
+      {
+        "icon": "📊",
+        "label": "Analysis Dashboard",
+        "page": "dashboard"
+      },
+      {
+        "icon": "💬",
+        "label": "Feedback",
+        "page": "feedback"
+      },
+      {
+        "icon": "⚙️",
+        "label": "Settings",
+        "page": "settings"
+      }
+    ]
+  },
+  
+  "feature_flags": {
+    "enable_youtube_videos": true,
+    "enable_feedback": true,
+    "enable_settings": true,
+    "enable_analytics": false,
+    "enable_user_auth": false,
+    "enable_export": false,
+    "debug_mode": false
+  }
+}

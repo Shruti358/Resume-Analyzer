@@ -1,0 +1,12 @@
+# Resume Analyzer - Modern UI Requirements
+
+streamlit
+pandas
+plotly
+
+# PDF and DOCX parsing
+PyPDF2
+python-docx
+
+# Data processing
+numpy

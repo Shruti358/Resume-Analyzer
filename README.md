@@ -1,205 +1,355 @@
-HEAD
-# 🎯 AI Resume Analyzer
+# AI Resume Analyzer
 
-A sophisticated resume analysis tool that compares your resume against job descriptions and provides detailed skill matching analysis with personalized learning recommendations.
+A comprehensive, intelligent resume analysis system that extracts data from resumes, compares with job descriptions, and provides personalized learning recommendations.
 
-## ✨ Features
+## Features
 
-- **Smart Skill Extraction** - Automatically extracts technical skills from resume and job descriptions
-- **Match Score Analysis** - Calculates matching percentage between your skills and job requirements
-- **Missing Skills Detection** - Identifies which skills you need to learn
-- **Learning Path** - Provides a prioritized list of skills to learn
-- **Natural Language Processing** - Uses NLTK for text cleaning and analysis
-- **Interactive UI** - Beautiful Streamlit web interface
+### 🔹 1. Resume Data Extraction (STRICT & ACCURATE)
+- ✅ Extract ONLY information present in the resume
+- ✅ No assumptions or generalizations
+- ✅ Full Name, Email, Phone Number
+- ✅ Skills (technical + soft skills)
+- ✅ Education (course name, degree, branch, university)
+- ✅ Experience (if present)
+- ✅ Returns "Not Found" for missing fields
 
-## 🚀 Quick Start
+### 🔹 2. Course Detection Issue Fixed
+- ✅ Identifies courses ONLY from education section
+- ✅ Lists all courses (no defaults or repetition)
+- ✅ Returns "Not Mentioned" if no course found
+- ✅ No hallucination or guessing
 
-### Installation
+### 🔹 3. Skill Analysis (ACCURATE)
+- ✅ Extracts skills from resume accurately
+- ✅ Avoids repetition
+- ✅ No irrelevant guesses
+- ✅ Comprehensive technical skills database
+- ✅ Soft skills detection
 
-1. **Clone the repository** (if not already done):
-   ```bash
-   git clone https://github.com/Shruti358/Resume-Analyzer.git
-   cd Resume-Analyzer
-   ```
+### 🔹 4. Job Description Comparison
+- ✅ Compares resume skills with job description
+- ✅ Matched Skills → presence in both resume and job
+- ✅ Missing Skills → required in job but NOT in resume
+- ✅ Extra Skills → in resume but NOT required
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 🔹 5. Skill Match Percentage
+- ✅ Calculates: Match % = (Matched Skills / Total Job Required Skills) × 100
+- ✅ Rounded to nearest integer
+- ✅ Accurate calculation based on job requirements
 
-3. **Run the application**:
-   ```bash
-   python -m streamlit run app.py
-   ```
+### 🔹 6. Smart Skill Recommendations
+- ✅ Recommends ONLY relevant missing skills from job description
+- ✅ Prioritizes most important skills first
+- ✅ No generic suggestions
+- ✅ Based on job market demand
 
-4. **Open in browser**:
-   - Local: http://localhost:8501
-   - Network: http://192.168.1.8:8501
+### 🔹 7. Resume Statistics (ACTUAL PAGE COUNT)
+- ✅ Detects actual number of pages in uploaded resume
+- ✅ NOT hardcoded (e.g., always 2)
+- ✅ Works for both PDF and DOCX formats
+- ✅ Accurate counting
 
-## 📋 Usage
+### 🔹 8. Learning Resources (COMPREHENSIVE)
+For each recommended skill:
+- ✅ 1 YouTube video (relevant & beginner-friendly)
+- ✅ 1 short learning resource (course/article)
+- ✅ Direct links to resources
+- ✅ Career-focused recommendations
 
-1. **Enter Your Resume** - Paste your resume text in the left text area
-2. **Enter Job Description** - Paste the job description in the right text area
-3. **Click "Analyze Resume"** - Get detailed analysis
-4. **Review Results**:
-   - Match Score percentage
-   - Skills you already have
-   - Missing skills to learn
-   - Confidence rating
+### 🔹 9. Output Format (STRICT JSON)
+```json
+{
+  "basic_info": {
+    "name": "",
+    "email": "",
+    "phone": ""
+  },
+  "education": [],
+  "experience": [],
+  "skills": {
+    "extracted": [],
+    "matched": [],
+    "missing": [],
+    "extra": []
+  },
+  "match_percentage": "",
+  "recommendations": [],
+  "resume_stats": {
+    "pages": ""
+  },
+  "learning_resources": {
+    "skill_name": {
+      "youtube": "",
+      "resource": ""
+    }
+  }
+}
+```
 
-## 📦 Project Structure
+### 🔹 10. Quality Rules
+- ✅ NO hallucination of data
+- ✅ NO repeated output for different resumes
+- ✅ EVERYTHING resume-specific
+- ✅ Accuracy over completeness
+
+## Installation
+
+### Requirements
+- Python 3.8+
+- Streamlit
+- pandas
+- plotly
+- PyPDF2
+- python-docx
+
+### Setup
+
+1. **Clone or download the project**
+```bash
+cd Resume-Analyzer
+```
+
+2. **Install dependencies**
+```bash
+pip install -r requirements_modern.txt
+```
+
+3. **Run the application**
+```bash
+# On Windows (PowerShell)
+.\run.bat
+
+# On Windows (Command Prompt)
+run.bat
+
+# On macOS/Linux
+bash run.sh
+
+# Or directly with Streamlit
+streamlit run app.py
+```
+
+## Usage
+
+### Web Interface (Streamlit)
+
+1. Open the application in your browser
+2. Navigate to "📤 Upload Resume"
+3. Upload a PDF or DOCX resume
+4. Paste job description (optional but recommended)
+5. Click "🔍 Analyze Resume"
+6. View comprehensive analysis:
+   - Extracted information
+   - Skill matching
+   - Match percentage
+   - Recommendations
+   - Learning resources
+
+### Programmatic API Usage
+
+```python
+from resume_api import analyze, analyze_json
+
+# Get analysis as dictionary
+result = analyze("/path/to/resume.pdf", "job description text")
+
+# Get analysis as JSON string
+json_result = analyze_json("/path/to/resume.pdf", "job description text")
+
+# Access specific data
+name = result['basic_info']['name']
+matched_skills = result['skills']['matched']
+match_percentage = result['match_percentage']
+recommendations = result['recommendations']
+```
+
+## Project Structure
 
 ```
 Resume-Analyzer/
-├── app.py                 # Main Streamlit application
-├── ml_model.py           # Core analysis logic
-├── utils.py              # Utility functions for skill extraction
-├── preprocess.py         # Data preprocessing for batch analysis
-├── matching.py           # Advanced matching algorithms
-├── test.py               # Test script
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
+├── app.py                      # Main Streamlit application
+├── resume_parser.py            # Resume file parsing module
+├── skill_analyzer.py           # Skill analysis & job comparison
+├── resume_api.py              # Programmatic API
+├── config.json                 # Configuration
+├── requirements_modern.txt     # Python dependencies
+├── run.bat                     # Windows batch runner
+├── run.sh                      # Linux/macOS shell runner
+├── Uploaded_Resumes/          # Directory for uploaded files
+└── README.md                   # This file
 ```
 
-## 🔧 Recognized Skills
+## Modules
 
-The analyzer recognizes 30+ technical skills including:
+### resume_parser.py
+**ResumeParser Class**
+- `parse_resume()` - Parse PDF or DOCX file
+- `parse_pdf()` - Extract text from PDF
+- `parse_docx()` - Extract text from DOCX
+- `extract_name()` - Extract full name
+- `extract_email()` - Extract email address
+- `extract_phone()` - Extract phone number
+- `extract_education()` - Extract education details
+- `extract_skills()` - Extract technical skills
+- `extract_experience()` - Extract work experience
+- `get_page_count()` - Get actual page count
+- `parse_full_resume()` - Complete parsing
 
-**Programming Languages:**
-- Python, Java, C++, R, Scala
+### skill_analyzer.py
+**SkillAnalyzer Class**
+- `extract_skills_from_text()` - Extract skills from job description
+- `match_skills()` - Compare resume vs job skills
+- `get_learning_resources()` - Get learning resources for skill
+- `recommend_skills()` - Generate recommendations
 
-**Data & ML:**
-- Machine Learning, Deep Learning, Pandas, NumPy, Data Analysis, TensorFlow, Keras, Scikit-learn
+**ResumeAnalyzer Class**
+- `analyze()` - Complete analysis
+- `to_json()` - Convert to JSON
 
-**Web Development:**
-- HTML, CSS, JavaScript, React, Node.js
+### resume_api.py
+**ResumeAnalysisAPI Class**
+- `analyze_resume_file()` - Analyze with job description
+- Convenience functions: `analyze()`, `analyze_json()`
 
-**Databases:**
-- SQL, MongoDB, PostgreSQL, Oracle
+## Supported File Formats
 
-**Cloud & DevOps:**
-- AWS, GCP, Docker, Kubernetes, Azure
+- **PDF** (.pdf)
+- **DOCX** (.docx) - Microsoft Word
+- Max file size: 200MB
 
-**Other:**
-- Git, Linux, Windows, DSA, SAP, Salesforce
+## Skills Database
 
-## 📝 Files Description
+The system includes recognition for:
 
-### `app.py`
-Main Streamlit application with:
-- Text input areas for resume and job description
-- Real-time skill extraction
-- Interactive results display
-- Error handling and validation
+**Programming Languages**
+Python, JavaScript, Java, C++, C#, PHP, Ruby, Go, Rust, Swift, Kotlin, TypeScript, Scala, Perl, R, MATLAB, Objective-C, Groovy, Haskell, Elixir
 
-### `ml_model.py`
-Core analysis engine:
-- `analyze_resume()` - Compares resume skills with job requirements
-- Returns match score, missing skills, and learning path
+**Web Frameworks**
+React, Vue.js, Angular, Django, Flask, Node.js, Express, Spring, ASP.NET, Laravel, FastAPI, Fastify, NestJS, Next.js, Nuxt.js, Ruby on Rails
 
-### `utils.py`
-Utility functions:
-- `clean_text()` - Text preprocessing and stopword removal
-- `extract_skills()` - Skill extraction from text
+**Databases**
+SQL, MySQL, PostgreSQL, MongoDB, Redis, Cassandra, DynamoDB, Firebase, Oracle, SQLite, Elasticsearch, Neo4j, CouchDB, MariaDB
 
-### `preprocess.py`
-Batch processing:
-- Load CSV with resume and job description pairs
-- Extract and analyze skills for multiple records
-- Generate JSON output with results
+**Cloud Platforms**
+AWS, Azure, Google Cloud, Heroku, Digital Ocean, Linode, CloudFlare, IBM Cloud, Oracle Cloud, Alibaba Cloud
 
-### `matching.py`
-Advanced matching:
-- Cosine similarity calculation
-- Vectorization of skills
-- Multi-label classification
+**Tools & Platforms**
+Git, Docker, Kubernetes, Jenkins, GitHub, GitLab, Bitbucket, JIRA, Slack, Linux, Windows, MacOS, Nginx, Apache, Terraform, Ansible
 
-### `test.py`
-Testing script:
-- Run with `python test.py`
-- Tests skill extraction and analysis functions
-- Useful for debugging
+**Data & ML**
+Machine Learning, TensorFlow, PyTorch, Scikit-learn, Pandas, NumPy, Data Analysis, Statistical Analysis, Deep Learning, NLP, Computer Vision, Apache Spark, Hadoop, Big Data
 
-## 🔍 Example
+**Soft Skills**
+Communication, Leadership, Problem Solving, Team Work, Project Management, Agile, Scrum, Time Management, Critical Thinking, Collaboration, Presentation, Documentation
 
+**Testing & QA**
+Unit Testing, Integration Testing, Testing, QA, Selenium, Jest, Pytest, Mocha, Chai, JUnit
+
+**DevOps**
+CI/CD, System Design, Microservices, Scalability, High Availability, Performance Optimization, Security
+
+## Learning Resources
+
+The system provides personalized learning resources for:
+- YouTube tutorials (beginner-friendly)
+- Online courses and documentation
+- Over 25+ skills with curated resources
+
+## Features Highlights
+
+✨ **Modern UI** - Beautiful glassmorphism design with animations
+📊 **Interactive Charts** - Visual analytics of skill distribution
+📥 **Export Options** - Download analysis as JSON or CSV
+🎯 **Smart Recommendations** - Prioritized skill recommendations
+📈 **Match Percentage** - Instant feedback on job fit
+🔍 **Accurate Extraction** - No hallucination or assumptions
+📚 **Learning Path** - Resources to acquire missing skills
+
+## Quality Assurance
+
+✅ No data hallucination
+✅ Unique output for each resume
+✅ Accurate page count detection
+✅ Strict JSON format
+✅ No hardcoded values
+✅ Resume-specific analysis
+✅ Accuracy over completeness
+
+## Example Output
+
+```json
+{
+  "basic_info": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "+1-555-0123"
+  },
+  "education": [
+    {
+      "degree": "Bachelor of Science",
+      "branch": "Computer Science",
+      "university": "Stanford University"
+    }
+  ],
+  "skills": {
+    "extracted": ["Python", "JavaScript", "React", "SQL", "AWS"],
+    "matched": ["Python", "JavaScript"],
+    "missing": ["TypeScript", "Kubernetes"],
+    "extra": ["SQL"]
+  },
+  "match_percentage": 40,
+  "recommendations": [
+    {
+      "skill": "TypeScript",
+      "priority": "high"
+    }
+  ],
+  "resume_stats": {
+    "pages": 1,
+    "skills_count": 5,
+    "education_count": 1,
+    "experience_count": 2
+  },
+  "learning_resources": {
+    "TypeScript": {
+      "youtube": "https://www.youtube.com/watch?v=BCg4perUb7w",
+      "resource": "https://www.typescriptlang.org/docs/"
+    }
+  }
+}
 ```
-Resume: "I have 5 years of experience with Python, Pandas, NumPy and SQL"
-Job: "We need Python, SQL, Machine Learning, Deep Learning expert"
 
-Results:
-- Match Score: 60%
-- Skills Matched: Python, SQL
-- Missing Skills: Machine Learning, Deep Learning
-- Learning Path: Machine Learning → Deep Learning → TensorFlow
-```
+## Troubleshooting
 
-## 🛠️ Installation Issues
+### Issue: "File not supported"
+- **Solution**: Ensure the file is in PDF or DOCX format (.pdf or .docx extension)
 
-### Streamlit not recognized
-If you get "streamlit is not recognized", use:
-```bash
-python -m streamlit run app.py
-```
+### Issue: "No skills detected"
+- **Solution**: Ensure skills are clearly mentioned in the resume (e.g., "Skills: Python, JavaScript")
 
-### Missing modules
-Install all dependencies:
-```bash
-pip install -r requirements.txt
-```
+### Issue: "Page count incorrect"
+- **Solution**: This shouldn't happen. Please check the original file. DOCX page count is estimated from content length.
 
-## 🔄 Development
+### Issue: "Email not found"
+- **Solution**: Ensure email follows standard format (e.g., john@example.com)
 
-### Running Tests
-```bash
-python test.py
-```
+## Contributing
 
-### Batch Processing
-```bash
-python preprocess.py
-```
+To add more skills or learning resources:
+1. Edit `TECHNICAL_SKILLS` dict in `resume_parser.py`
+2. Edit `LEARNING_RESOURCES` dict in `skill_analyzer.py`
+3. Ensure consistent naming and formatting
 
-This reads `data.csv` and generates `processed_data.json`
+## License
 
-## 📊 Dependencies
+This project is open source and available for educational purposes.
 
-- **streamlit** - Web app framework
-- **pandas** - Data manipulation
-- **scikit-learn** - Machine learning utilities
-- **nltk** - Natural language processing
-- **numpy** - Numerical computing
+## Support
 
-See `requirements.txt` for specific versions.
-
-## 🐛 Troubleshooting
-
-**App won't start:**
-- Make sure all dependencies are installed: `pip install -r requirements.txt`
-- Use correct Python path: `python -m streamlit run app.py`
-- Check PORT 8501 is not in use
-
-**Skills not recognized:**
-- Check if skill name is in the SKILLS list
-- Text must contain the exact skill name (case-insensitive)
-- Special characters are automatically cleaned
-
-**No results shown:**
-- Ensure both resume and job description have at least one recognized skill
-- Check the console for error messages
-
-## 📧 Support
-
-For issues, questions, or suggestions, please check the original repository or open an issue.
-
-## 📄 License
-
-This project is open source and available under the MIT License.
+For issues or feature requests, please create an issue in the project repository.
 
 ---
 
-**Happy Job Hunting! 🚀**
-
-# Resume Analyzer
-
-A Python ML project that compares resume skills with job skills.
- d2e068edb36de916cc847a7d5cadefe114f0d7ff
+**Version**: 2.0
+**Last Updated**: 2024
+**Author**: Resume Analyzer Team
