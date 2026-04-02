@@ -1,8 +1,7 @@
+.venv/
 __pycache__/
-*.py[cod]
-.Python
-venv/
+*.pyc
 .env
-Uploaded_Resumes/
-resume_analytics.db
-.streamlit/secrets.toml
+.DS_Store
+results.json
+processed_data.json
