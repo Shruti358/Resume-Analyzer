@@ -1,0 +1,14 @@
+# Streamlit Cloud default dependency file
+# Keep in sync with requirements_modern.txt
+streamlit
+pandas
+plotly
+
+# PDF and DOCX parsing
+PyMuPDF
+PyPDF2
+python-docx
+
+# Data processing
+numpy
+scikit-learn
