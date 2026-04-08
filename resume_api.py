@@ -59,6 +59,13 @@ class ResumeAnalysisAPI:
                 "extra": analysis.get('skills', {}).get('extra', [])
             },
             "match_percentage": analysis.get('match_percentage', 0),
+            "ats_score": analysis.get('ats_score', 0),
+            "ats_feedback": analysis.get('ats_feedback', ''),
+            "keyword_analysis": {
+                "matched": analysis.get('keyword_analysis', {}).get('matched', []),
+                "missing": analysis.get('keyword_analysis', {}).get('missing', [])
+            },
+            "section_feedback": analysis.get('section_feedback', {}),
             "recommendations": [
                 {
                     "skill": rec.get('skill'),

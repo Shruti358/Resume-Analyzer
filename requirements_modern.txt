@@ -5,8 +5,10 @@ pandas
 plotly
 
 # PDF and DOCX parsing
+PyMuPDF
 PyPDF2
 python-docx
 
 # Data processing
 numpy
+scikit-learn

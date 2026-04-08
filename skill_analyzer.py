@@ -327,6 +327,140 @@ class ResumeAnalyzer:
     
     def __init__(self):
         self.skill_analyzer = SkillAnalyzer()
+
+    @staticmethod
+    def _extract_keywords_from_job_description(job_description: str) -> List[str]:
+        """Extract prioritized keywords from job description text."""
+        if not job_description:
+            return []
+
+        stop_words = {
+            "a", "an", "and", "are", "as", "at", "be", "by", "for", "from",
+            "has", "he", "in", "is", "it", "its", "of", "on", "that", "the",
+            "to", "was", "were", "will", "with", "you", "your", "our", "we",
+            "have", "must", "should", "preferred", "required", "role", "position",
+            "experience", "years", "year", "work", "team", "ability", "strong",
+            "knowledge", "good", "excellent", "skills", "using", "plus"
+        }
+
+        tokens = re.findall(r"[a-zA-Z][a-zA-Z0-9\+#\.-]{1,}", job_description.lower())
+        filtered_tokens = []
+        for token in tokens:
+            if token in stop_words:
+                continue
+            if len(token) < 3 and token not in {"c", "c#", "c++", "ai", "ml"}:
+                continue
+            filtered_tokens.append(token)
+
+        technical_keywords = SkillAnalyzer.extract_skills_from_text(job_description)
+
+        ordered_keywords = []
+        for keyword in technical_keywords + filtered_tokens:
+            if keyword not in ordered_keywords:
+                ordered_keywords.append(keyword)
+
+        return ordered_keywords[:25]
+
+    @staticmethod
+    def _match_keywords(resume_text: str, keywords: List[str]) -> Tuple[List[str], List[str], int]:
+        """Match extracted keywords against resume text."""
+        if not keywords:
+            return [], [], 0
+
+        resume_text_lower = (resume_text or "").lower()
+        matched = []
+        missing = []
+
+        for keyword in keywords:
+            pattern = r"\b" + re.escape(keyword.lower()) + r"\b"
+            if re.search(pattern, resume_text_lower):
+                matched.append(keyword)
+            else:
+                missing.append(keyword)
+
+        keyword_match_score = int(round((len(matched) / len(keywords)) * 100)) if keywords else 0
+        return matched, missing, keyword_match_score
+
+    @staticmethod
+    def _calculate_resume_structure_score(resume_data: Dict) -> int:
+        """Score whether key ATS sections exist: education, experience, skills."""
+        checks = [
+            bool(resume_data.get("education")),
+            bool(resume_data.get("experience")),
+            bool(resume_data.get("skills")),
+        ]
+        return int(round((sum(checks) / len(checks)) * 100))
+
+    @staticmethod
+    def _calculate_content_completeness_score(resume_data: Dict) -> int:
+        """Score completeness for core profile content fields."""
+        basic_info = resume_data.get("basic_info", {})
+        checks = [
+            basic_info.get("name") not in {None, "", "Not Found"},
+            basic_info.get("email") not in {None, "", "Not Found"},
+            basic_info.get("phone") not in {None, "", "Not Found"},
+            bool(resume_data.get("education")),
+            bool(resume_data.get("experience")),
+            bool(resume_data.get("skills")),
+        ]
+        return int(round((sum(checks) / len(checks)) * 100))
+
+    @staticmethod
+    def _get_ats_feedback(ats_score: int) -> str:
+        """Return ATS feedback label based on score range."""
+        if ats_score >= 80:
+            return "Strong profile, highly optimized"
+        if ats_score >= 60:
+            return "Good, but needs improvement"
+        if ats_score >= 40:
+            return "Moderate, improve skills and keywords"
+        return "Low match, significant improvement needed"
+
+    @staticmethod
+    def _build_section_feedback(
+        skills_score: int,
+        keyword_score: int,
+        structure_score: int,
+        completeness_score: int,
+        has_job_description: bool,
+    ) -> Dict:
+        """Generate section-level actionable feedback."""
+        if skills_score >= 80:
+            skills_feedback = "Strong skill alignment with the target role."
+        elif skills_score >= 60:
+            skills_feedback = "Skills are reasonably aligned, but add more role-specific tools."
+        else:
+            skills_feedback = "Skill alignment is low. Add more required technical skills to your resume."
+
+        if not has_job_description:
+            keyword_feedback = "Add a job description to enable keyword optimization analysis."
+        elif keyword_score >= 80:
+            keyword_feedback = "Keyword coverage is strong and ATS-friendly."
+        elif keyword_score >= 60:
+            keyword_feedback = "Keyword match is decent. Include more exact terms from the job description."
+        else:
+            keyword_feedback = "Keyword coverage is low. Add missing role-specific keywords naturally in your resume."
+
+        if structure_score >= 80:
+            structure_feedback = "Resume structure is ATS-ready with key sections present."
+        elif structure_score >= 60:
+            structure_feedback = "Resume structure is acceptable but can be improved with clearer sectioning."
+        else:
+            structure_feedback = "Resume structure is weak. Include clear Education, Experience, and Skills sections."
+
+        if completeness_score >= 80:
+            completeness_feedback = "Content completeness is strong."
+        elif completeness_score >= 60:
+            completeness_feedback = "Content is partially complete. Add missing profile details and history."
+        else:
+            completeness_feedback = "Content completeness is low. Add contact details, skills, education, and experience."
+
+        return {
+            "skills": skills_feedback,
+            "keywords": keyword_feedback,
+            "structure": structure_feedback,
+            "completeness": completeness_feedback,
+        }
     
     def analyze(
         self,
@@ -347,11 +481,37 @@ class ResumeAnalyzer:
         # Extract skills from job description
         job_skills = SkillAnalyzer.extract_skills_from_text(job_description)
         resume_skills = resume_data.get('skills', [])
+        resume_text = resume_data.get('raw_text', '')
         
         # Analyze skill match
         matched, missing, extra, match_percentage = SkillAnalyzer.match_skills(
             resume_skills,
             job_skills if job_skills else resume_skills
+        )
+
+        # Keyword analysis
+        job_keywords = self._extract_keywords_from_job_description(job_description)
+        matched_keywords, missing_keywords, keyword_match_score = self._match_keywords(
+            resume_text,
+            job_keywords
+        )
+
+        # ATS component scores
+        structure_score = self._calculate_resume_structure_score(resume_data)
+        completeness_score = self._calculate_content_completeness_score(resume_data)
+        ats_score = int(round(
+            (match_percentage * 0.50) +
+            (keyword_match_score * 0.20) +
+            (structure_score * 0.15) +
+            (completeness_score * 0.15)
+        ))
+        ats_feedback = self._get_ats_feedback(ats_score)
+        section_feedback = self._build_section_feedback(
+            skills_score=match_percentage,
+            keyword_score=keyword_match_score,
+            structure_score=structure_score,
+            completeness_score=completeness_score,
+            has_job_description=bool(job_description.strip())
         )
         
         # Get recommendations
@@ -380,7 +540,26 @@ class ResumeAnalyzer:
                 "extra": extra
             },
             "match_percentage": match_percentage,
+            "ats_score": ats_score,
+            "ats_feedback": ats_feedback,
+            "ats_breakdown": {
+                "skills_match": match_percentage,
+                "keyword_match": keyword_match_score,
+                "resume_structure": structure_score,
+                "content_completeness": completeness_score,
+                "weights": {
+                    "skills_match": 0.50,
+                    "keyword_match": 0.20,
+                    "resume_structure": 0.15,
+                    "content_completeness": 0.15
+                }
+            },
+            "section_feedback": section_feedback,
             "job_skills_detected": job_skills,
+            "keyword_analysis": {
+                "matched": matched_keywords,
+                "missing": missing_keywords
+            },
             "recommendations": [
                 {
                     "skill": rec['skill'],

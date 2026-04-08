@@ -373,5 +373,6 @@ class ResumeParser:
             "education": self.extract_education(text),
             "experience": self.extract_experience(text),
             "skills": self.extract_skills(text),
-            "pages": self.get_page_count(file_path)
+            "pages": self.get_page_count(file_path),
+            "raw_text": text
         }
